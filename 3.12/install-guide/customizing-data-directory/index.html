@@ -1486,7 +1486,8 @@
 </ul>
 <p>The data directory also contains a number of support files used by the catalog for various purposes:</p>
 <ul>
-<li>index configuration</li>
+<li>Lucene index</li>
+<li>spatial index</li>
 <li>logos</li>
 <li>uploaded document attached to metadata records</li>
 <li>thumbnails</li>
@@ -1613,32 +1614,34 @@
 <h2 id="advanced-data-directory-configuration">Advanced data directory configuration</h2>
 <p>All sub-directories could be configured separately using Java system property. For example, to put the index config directory in a custom location use:</p>
 <ul>
-<li><webappName>.indexConfig.dir and if not set using:</li>
-<li>geonetwork.indexConfig.dir</li>
+<li><webappName>.lucene.dir and if not set using:</li>
+<li>geonetwork.lucene.dir</li>
 </ul>
 <p>Examples:</p>
 <ul>
 <li>Add the following Java properties to start-geonetwork.sh script:</li>
 </ul>
-<div class="language-shell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>java<span class="w"> </span>-Xms1g<span class="w"> </span>-Xmx1g<span class="w"> </span>-Xss2M<span class="w"> </span>-XX:MaxPermSize<span class="o">=</span>128m<span class="w"> </span>-Dgeonetwork.dir<span class="o">=</span>/app/geonetwork_data_dir
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>java<span class="w"> </span>-Xms1g<span class="w"> </span>-Xmx1g<span class="w"> </span>-Xss2M<span class="w"> </span>-XX:MaxPermSize<span class="o">=</span>128m<span class="w"> </span>-Dgeonetwork.lucene.dir<span class="o">=</span>/ssd/geonetwork_lucene_dir
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w"> </span>-Dgeonetwork.dir<span class="o">=</span>/app/geonetwork_data_dir
 </span></code></pre></div>
 <ul>
 <li>Add the following system properties to start-geonetwork.sh script:</li>
 </ul>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">geonetwork_dir</span><span class="o">=</span>/app/geonetwork_data_dir
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">geonetwork_lucene_dir</span><span class="o">=</span>/ssd/geonetwork_lucene_dir
 </span></code></pre></div>
 <ul>
 <li>If no changes are made to thesaurus or schema, it could be relevant to use the version from the webapp. In such case, set:</li>
 </ul>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>-Dgeonetwork.dir<span class="o">=</span>/data/catalogue
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>-Dgeonetwork.schema.dir<span class="o">=</span>/app/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>-Dgeonetwork.indexConfig.dir<span class="o">=</span>/app/tomcat/webapps/geonetwork/WEB-INF/data/config/index
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>-Dgeonetwork.codeList.dir<span class="o">=</span>/app/tomcat/webapps/geonetwork/WEB-INF/data/config/codelist
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>-Dgeonetwork.codeList.dir<span class="o">=</span>/app/tomcat/webapps/geonetwork/WEB-INF/data/config/codelist
 </span></code></pre></div>
 <p>The list of properties that can be set are:</p>
 <ul>
 <li>geonetwork.dir</li>
-<li>geonetwork.indexConfig.dir</li>
+<li>geonetwork.lucene.dir</li>
+<li>geonetwork.spatial.dir</li>
 <li>geonetwork.config.dir</li>
 <li>geonetwork.codeList.dir</li>
 <li>geonetwork.schema.dir</li>

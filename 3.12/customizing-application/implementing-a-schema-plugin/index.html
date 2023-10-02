@@ -1437,8 +1437,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#creating-the-indexxsl-to-index-content-from-the-metadata-record" class="md-nav__link">
-    Creating the index.xsl to index content from the metadata record
+  <a href="#creating-the-index-fieldsdefaultxsl-to-index-content-from-the-metadata-record" class="md-nav__link">
+    Creating the index-fields/default.xsl to index content from the metadata record
   </a>
   
 </li>
@@ -1467,6 +1467,13 @@
           <li class="md-nav__item">
   <a href="#creating-set-uuidxsl" class="md-nav__link">
     Creating set-uuid.xsl
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-extract-set-and-unset-thumbnail-xslts" class="md-nav__link">
+    Creating the extract, set and unset thumbnail XSLTs
   </a>
   
 </li>
@@ -1923,8 +1930,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#creating-the-indexxsl-to-index-content-from-the-metadata-record" class="md-nav__link">
-    Creating the index.xsl to index content from the metadata record
+  <a href="#creating-the-index-fieldsdefaultxsl-to-index-content-from-the-metadata-record" class="md-nav__link">
+    Creating the index-fields/default.xsl to index content from the metadata record
   </a>
   
 </li>
@@ -1953,6 +1960,13 @@
           <li class="md-nav__item">
   <a href="#creating-set-uuidxsl" class="md-nav__link">
     Creating set-uuid.xsl
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-extract-set-and-unset-thumbnail-xslts" class="md-nav__link">
+    Creating the extract, set and unset thumbnail XSLTs
   </a>
   
 </li>
@@ -2127,7 +2141,8 @@
 </ul>
 <p>In the <code>index-fields</code> folder, the following files are required:</p>
 <ul>
-<li><strong>index.xsl</strong>: (<em>Mandatory</em>) Index the metadata record content. The output produce a list of field and values to index.</li>
+<li><strong>default.xsl</strong>: (<em>Mandatory</em>) Index the metadata record content in Lucene. Creates the Lucene document used by GeoNetwork to index the metadata record content.</li>
+<li><strong>language-default.xsl</strong>: (<em>Optional</em>) Required to index multilingual metadata.</li>
 </ul>
 <p>To help in understanding what each of these components is and what is required, we will now give a step-by-step example of how to build a schemaPlugin for GeoNetwork.</p>
 <h3 id="preparation">Preparation</h3>
@@ -2990,24 +3005,129 @@ schema
 loc  present  schema-conversions.xml  schema-ident.xml  schema.xsd
 schema
 </code></pre></div>
-<h4 id="creating-the-indexxsl-to-index-content-from-the-metadata-record">Creating the index.xsl to index content from the metadata record</h4>
-<p>This XSLT indexes the content of elements in the metadata record. The essence of this XSLT is to select elements from the metadata record and map them to index field names. Using Kibana user can browse the index and check all fields available. The number of fields depends on the catalog as some fields are dynamic eg. codelist, thesaurus.</p>
-<p>In Kibana, navigate to <code>Stack Management --&gt; Index pattern</code></p>
-<p><img alt="" src="../img/kb-index-pattern.png" /></p>
-<p>Select <code>gn-records</code> to retrieve the list of fields:</p>
-<p><img alt="" src="../img/kb-index-fields.png" /></p>
-<p>If Elasticsearch instance is accessible, user can get the details about a record using <a href="http://localhost:9200/gn-records/_doc/7c7923b1-c387-49ac-b6c7-391ca187b7fa">http://localhost:9200/gn-records/_doc/7c7923b1-c387-49ac-b6c7-391ca187b7fa</a> (<code>Kibana --&gt; dev tools</code> can also be used to get the document details):</p>
-<p><img alt="" src="../img/es-get-doc.png" /></p>
-<p>For example, here is the mapping created between the metadata element mcp:revisionDate and the index field changeDate:</p>
+<h4 id="creating-the-index-fieldsdefaultxsl-to-index-content-from-the-metadata-record">Creating the index-fields/default.xsl to index content from the metadata record</h4>
+<p>This XSLT indexes the content of elements in the metadata record. The essence of this XSLT is to select elements from the metadata record and map them to lucene index field names. The lucene index field names used in
+GeoNetwork are as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Lucene Index Field Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>abstract</td>
+<td>Metadata abstract</td>
+</tr>
+<tr>
+<td>any</td>
+<td>Content from all metadata elements (for free text)</td>
+</tr>
+<tr>
+<td>changeDate</td>
+<td>Date that the metadata record was modified</td>
+</tr>
+<tr>
+<td>createDate</td>
+<td>Date that the metadata record was created</td>
+</tr>
+<tr>
+<td>denominator</td>
+<td>Scale denominator in data resolution</td>
+</tr>
+<tr>
+<td>download</td>
+<td>Does the metadata record have a downloadable resource attached?  (0 or 1)</td>
+</tr>
+<tr>
+<td>digital</td>
+<td>Is the metadata record distributed/available in a digital format?  (0 or 1)</td>
+</tr>
+<tr>
+<td>eastBL</td>
+<td>East bounding box longitude</td>
+</tr>
+<tr>
+<td>keyword</td>
+<td>Metadata keywords</td>
+</tr>
+<tr>
+<td>metadataStandardName</td>
+<td>Metadata standard name</td>
+</tr>
+<tr>
+<td>northBL</td>
+<td>North bounding box latitude</td>
+</tr>
+<tr>
+<td>operatesOn</td>
+<td>Uuid of metadata record describing dataset that is operated on by a service</td>
+</tr>
+<tr>
+<td>orgName</td>
+<td>Name of organisation listed in point-of-contact information</td>
+</tr>
+<tr>
+<td>parentUuid</td>
+<td>Uuid of parent metadata record</td>
+</tr>
+<tr>
+<td>paper</td>
+<td>Is the metadata record distributed/available in a paper format?  (0 or 1)</td>
+</tr>
+<tr>
+<td>protocol</td>
+<td>On line resource access protocol</td>
+</tr>
+<tr>
+<td>publicationDate</td>
+<td>Date resource was published</td>
+</tr>
+<tr>
+<td>southBL</td>
+<td>South bounding box latitude</td>
+</tr>
+<tr>
+<td>spatialRepresentationType</td>
+<td>vector, raster, etc</td>
+</tr>
+<tr>
+<td>tempExtentBegin</td>
+<td>Beginning of temporal extent range</td>
+</tr>
+<tr>
+<td>tempExtentEnd</td>
+<td>End of temporal extent range</td>
+</tr>
+<tr>
+<td>title</td>
+<td>Metadata title</td>
+</tr>
+<tr>
+<td>topicCat</td>
+<td>Metadata topic category</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Metadata hierarchy level (should be dataset if unknown)</td>
+</tr>
+<tr>
+<td>westBL</td>
+<td>West bounding box longitude</td>
+</tr>
+</tbody>
+</table>
+<p>For example, here is the mapping created between the metadata element mcp:revisionDate and the lucene index field changeDate:</p>
 <div class="language-xml highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="nt">&lt;xsl:for-each</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;mcp:revisionDate/*&quot;</span><span class="nt">&gt;</span>
-</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="w">  </span><span class="nt">&lt;changeDate&gt;&lt;xsl:value-of</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;string(.)&quot;</span><span class="nt">/&gt;&lt;/changeDate&gt;</span>
-</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="nt">&lt;/xsl:for-each&gt;</span>
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="w">   </span><span class="nt">&lt;Field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;changeDate&quot;</span><span class="w"> </span><span class="na">string=</span><span class="s">&quot;{string(.)}&quot;</span><span class="w"> </span><span class="na">store=</span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="na">index=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="w"> </span><span class="nt">&lt;/xsl:for-each&gt;</span>
 </span></code></pre></div>
-<p>Notice that we are creating a new XML document. The Field elements in this document are read by GeoNetwork to create a document object for indexing (see the SearchManager class in the GeoNetwork source).</p>
+<p>Notice that we are creating a new XML document. The Field elements in this document are read by GeoNetwork to create a Lucene document object for indexing (see the SearchManager class in the GeoNetwork source).</p>
 <p>Once again, because the MCP is a profile of ISO19115/19139, it is probably best to modify <code>index.xsl</code> from the schema iso19139 to handle the namespaces and additional elements of the MCP.</p>
 <p>At this stage, our new GeoNetwork plugin schema for MCP contains:</p>
 <div class="language-text highlight"><pre><span></span><code>extract-date-modified.xsl  extract-gml.xsd  extract-uuid.xsl
-index.xsl  loc  present  schema-conversions.xml  schema-ident.xml
+index-fields/default.xsl  loc  present  schema-conversions.xml  schema-ident.xml
 schema.xsd  schema
 </code></pre></div>
 <h4 id="creating-the-sample-data-directory">Creating the sample-data directory</h4>
@@ -3016,7 +3136,7 @@ schema.xsd  schema
 <p>Sample data in this directory can be added to the catalog using the Administration menu.</p>
 <p>At this stage, our new GeoNetwork plugin schema for MCP contains:</p>
 <div class="language-text highlight"><pre><span></span><code>extract-date-modified.xsl  extract-gml.xsd  extract-uuid.xsl
-index-fields.xsl  loc  present  sample-data schema-ident.xml  schema.xsd
+index-fields/default.xsl  loc  present  sample-data schema-ident.xml  schema.xsd
 schema
 </code></pre></div>
 <h4 id="creating-schematrons-to-describe-mcp-conditions">Creating schematrons to describe MCP conditions</h4>
@@ -3065,7 +3185,7 @@ schema
 <p>Schematron rules are compiled when the schema is loaded.</p>
 <p>At this stage, our new GeoNetwork plugin schema for MCP contains:</p>
 <div class="language-text highlight"><pre><span></span><code>extract-date-modified.xsl  extract-gml.xsd  extract-uuid.xsl
-index-fields.xsl  loc  present  sample-data  schema-conversions.xml
+index-fields/default.xsl  loc  present  sample-data  schema-conversions.xml
 schema-ident.xml  schema.xsd  schema  schematron/schematron-rules-iso-mcp.sch
 </code></pre></div>
 <h4 id="adding-the-components-necessary-to-create-and-edit-mcp-metadata">Adding the components necessary to create and edit MCP metadata</h4>
@@ -3075,28 +3195,78 @@ schema-ident.xml  schema.xsd  schema  schematron/schematron-rules-iso-mcp.sch
 <ul>
 <li><strong>set-uuid.xsl</strong> - this XSLT takes as a parameter the UUID of the metadata record and writes it into the appropriate element of the metadata record. For the MCP this element is the same as the base ISO schema (called iso19139 in GeoNetwork), namely gmd:fileIdentifier. However, because the MCP uses a different namespace on the root element, this XSLT needs to be modified.</li>
 </ul>
+<h4 id="creating-the-extract-set-and-unset-thumbnail-xslts">Creating the extract, set and unset thumbnail XSLTs</h4>
+<p>If your metadata record can have a thumbnail or browse graphic link, then you will want to add XSLTs that extract, set and unset this information so that you can use the GeoNetwork thumbnail editing interface.</p>
+<p>The three XSLTs that support this interface are:</p>
+<ul>
+<li><strong>extract-thumbnails.xsl</strong> - this XSLT extracts the thumbnails/browse graphics from the metadata record, turning it into generic XML that is the same for all metadata schemas. The elements need to have content that GeoNetwork understands. The following is an example of what the thumbnail interface for iso19139 expects (we'll duplicate this requirement for MCP):</li>
+</ul>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="w">  </span><span class="nt">&lt;gmd:graphicOverview&gt;</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="w">    </span><span class="nt">&lt;gmd:MD_BrowseGraphic&gt;</span>
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="w">      </span><span class="nt">&lt;gmd:fileName&gt;</span>
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="w">        </span><span class="nt">&lt;gco:CharacterString&gt;</span>bluenet_s.png<span class="nt">&lt;/gco:CharacterString&gt;</span>
+</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="w">      </span><span class="nt">&lt;/gmd:fileName&gt;</span>
+</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a><span class="w">      </span><span class="nt">&lt;gmd:fileDescription&gt;</span>
+</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a><span class="w">        </span><span class="nt">&lt;gco:CharacterString&gt;</span>thumbnail<span class="nt">&lt;/gco:CharacterString&gt;</span>
+</span><span id="__span-45-8"><a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="w">      </span><span class="nt">&lt;/gmd:fileDescription&gt;</span>
+</span><span id="__span-45-9"><a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a><span class="w">      </span><span class="nt">&lt;gmd:fileType&gt;</span>
+</span><span id="__span-45-10"><a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a><span class="w">        </span><span class="nt">&lt;gco:CharacterString&gt;</span>png<span class="nt">&lt;/gco:CharacterString&gt;</span>
+</span><span id="__span-45-11"><a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a><span class="w">      </span><span class="nt">&lt;/gmd:fileType&gt;</span>
+</span><span id="__span-45-12"><a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a><span class="w">    </span><span class="nt">&lt;/gmd:MD_BrowseGraphic&gt;</span>
+</span><span id="__span-45-13"><a id="__codelineno-45-13" name="__codelineno-45-13" href="#__codelineno-45-13"></a><span class="w">  </span><span class="nt">&lt;/gmd:graphicOverview&gt;</span>
+</span><span id="__span-45-14"><a id="__codelineno-45-14" name="__codelineno-45-14" href="#__codelineno-45-14"></a><span class="w">  </span><span class="nt">&lt;gmd:graphicOverview&gt;</span>
+</span><span id="__span-45-15"><a id="__codelineno-45-15" name="__codelineno-45-15" href="#__codelineno-45-15"></a><span class="w">    </span><span class="nt">&lt;gmd:MD_BrowseGraphic&gt;</span>
+</span><span id="__span-45-16"><a id="__codelineno-45-16" name="__codelineno-45-16" href="#__codelineno-45-16"></a><span class="w">      </span><span class="nt">&lt;gmd:fileName&gt;</span>
+</span><span id="__span-45-17"><a id="__codelineno-45-17" name="__codelineno-45-17" href="#__codelineno-45-17"></a><span class="w">        </span><span class="nt">&lt;gco:CharacterString&gt;</span>bluenet.png<span class="nt">&lt;/gco:CharacterString&gt;</span>
+</span><span id="__span-45-18"><a id="__codelineno-45-18" name="__codelineno-45-18" href="#__codelineno-45-18"></a><span class="w">      </span><span class="nt">&lt;/gmd:fileName&gt;</span>
+</span><span id="__span-45-19"><a id="__codelineno-45-19" name="__codelineno-45-19" href="#__codelineno-45-19"></a><span class="w">      </span><span class="nt">&lt;gmd:fileDescription&gt;</span>
+</span><span id="__span-45-20"><a id="__codelineno-45-20" name="__codelineno-45-20" href="#__codelineno-45-20"></a><span class="w">        </span><span class="nt">&lt;gco:CharacterString&gt;</span>large_thumbnail<span class="nt">&lt;/gco:CharacterString&gt;</span>
+</span><span id="__span-45-21"><a id="__codelineno-45-21" name="__codelineno-45-21" href="#__codelineno-45-21"></a><span class="w">      </span><span class="nt">&lt;/gmd:fileDescription&gt;</span>
+</span><span id="__span-45-22"><a id="__codelineno-45-22" name="__codelineno-45-22" href="#__codelineno-45-22"></a><span class="w">      </span><span class="nt">&lt;gmd:fileType&gt;</span>
+</span><span id="__span-45-23"><a id="__codelineno-45-23" name="__codelineno-45-23" href="#__codelineno-45-23"></a><span class="w">        </span><span class="nt">&lt;gco:CharacterString&gt;</span>png<span class="nt">&lt;/gco:CharacterString&gt;</span>
+</span><span id="__span-45-24"><a id="__codelineno-45-24" name="__codelineno-45-24" href="#__codelineno-45-24"></a><span class="w">      </span><span class="nt">&lt;/gmd:fileType&gt;</span>
+</span><span id="__span-45-25"><a id="__codelineno-45-25" name="__codelineno-45-25" href="#__codelineno-45-25"></a><span class="w">    </span><span class="nt">&lt;/gmd:MD_BrowseGraphic&gt;</span>
+</span><span id="__span-45-26"><a id="__codelineno-45-26" name="__codelineno-45-26" href="#__codelineno-45-26"></a><span class="w">  </span><span class="nt">&lt;/gmd:graphicOverview&gt;</span>
+</span></code></pre></div>
+<p>When <code>extract-thumbnails.xsl</code> is run, it creates a small XML hierarchy
+  from this information which looks something like the following:</p>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="w">   </span><span class="nt">&lt;thumbnail&gt;</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="w">     </span><span class="nt">&lt;large&gt;</span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="w">       </span>bluenet.png
+</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="w">     </span><span class="nt">&lt;/large&gt;</span>
+</span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="w">     </span><span class="nt">&lt;small&gt;</span>
+</span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="w">       </span>bluenet_s.png
+</span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="w">     </span><span class="nt">&lt;/small&gt;</span>
+</span><span id="__span-46-8"><a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="w">   </span><span class="nt">&lt;/thumbnail&gt;</span>
+</span></code></pre></div>
+<ul>
+<li><strong>set-thumbnail.xsl</strong> - this XSLT does the opposite of <code>extract-thumbnails.xsl</code>. It takes the simplified, common XML structure used by GeoNetwork to describe the large and small thumbnails and creates the elements of the metadata record that are needed to represent them. This is a slightly more complex XSLT than <code>extract-thumbnails.xsl</code> because the existing elements in the metadata record need to be retained and the new elements need to be created in their correct places.</li>
+<li><strong>unset-thumbnail.xsl</strong> - this XSLT targets and removes elements of the metadata record that describe a particular thumbnail. The remaining elements of the metadata record are retained.</li>
+</ul>
+<p>Because the MCP is a profile of ISO19115/19139, the easiest path to creating these XSLTs is to copy them from the iso19139 schema and modify them for the changes in namespace required by the MCP.</p>
 <h4 id="creating-the-update-xslts">Creating the update-... XSLTs</h4>
 <ul>
+<li><strong>update-child-from-parent-info.xsl</strong> - this XSLT is run when a child record needs to have content copied into it from a parent record. It is an XSLT that changes the content of a few elements and leaves the remaining elements untouched. The behaviour of this XSLT would depend on which elements of the parent record will be used to update elements of the child record.</li>
 <li><strong>update-fixed-info.xsl</strong> - this XSLT is run after editing to fix certain elements and content in the metadata record. For the MCP there are a number of actions we would like to take to 'hard-wire' certain elements and content. To do this the XSLT the following processing logic:</li>
 </ul>
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>&lt;!-- --&gt;
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>&lt;!-- --&gt;
 </span></code></pre></div>
     if the element is one that we want to process then
       add a template with a match condition for that element and process it
     else copy the element to output</p>
 <p>Because the MCP is a profile of ISO19115/19139, the easiest path to creating this XSLT is to copy update-fixed-info.xsl from the iso19139 schema and modify it for the changes in namespace required by the MCP and then to include the processing we want.</p>
 <p>A simple example of MCP processing is to make sure that the gmd:metadataStandardName and gmd:metadataStandardVersion elements have the content needed to ensure that the record is recognized as MCP. To do this we can add two templates as follows:</p>
-<div class="language-xml highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="nt">&lt;xsl:template</span><span class="w"> </span><span class="na">match=</span><span class="s">&quot;gmd:metadataStandardName&quot;</span><span class="w"> </span><span class="na">priority=</span><span class="s">&quot;10&quot;</span><span class="nt">&gt;</span>
-</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="w">  </span><span class="nt">&lt;xsl:copy&gt;</span>
-</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="w">    </span><span class="nt">&lt;gco:CharacterString&gt;</span>Australian<span class="w"> </span>Marine<span class="w"> </span>Community<span class="w"> </span>Profile<span class="w"> </span>of<span class="w"> </span>ISO<span class="w"> </span>19115:2005/19139<span class="nt">&lt;/gco:CharacterString&gt;</span>
-</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="w">  </span><span class="nt">&lt;/xsl:copy&gt;</span>
-</span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="nt">&lt;/xsl:template&gt;</span>
-</span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a>
-</span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="nt">&lt;xsl:template</span><span class="w"> </span><span class="na">match=</span><span class="s">&quot;gmd:metadataStandardVersion&quot;</span><span class="w"> </span><span class="na">priority=</span><span class="s">&quot;10&quot;</span><span class="nt">&gt;</span>
-</span><span id="__span-46-8"><a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="w">  </span><span class="nt">&lt;xsl:copy&gt;</span>
-</span><span id="__span-46-9"><a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="w">    </span><span class="nt">&lt;gco:CharacterString&gt;</span>MCP:BlueNet<span class="w"> </span>V1.5<span class="nt">&lt;/gco:CharacterString&gt;</span>
-</span><span id="__span-46-10"><a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a><span class="w">  </span><span class="nt">&lt;/xsl:copy&gt;</span>
-</span><span id="__span-46-11"><a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a><span class="nt">&lt;/xsl:template&gt;</span>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="nt">&lt;xsl:template</span><span class="w"> </span><span class="na">match=</span><span class="s">&quot;gmd:metadataStandardName&quot;</span><span class="w"> </span><span class="na">priority=</span><span class="s">&quot;10&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="w">  </span><span class="nt">&lt;xsl:copy&gt;</span>
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="w">    </span><span class="nt">&lt;gco:CharacterString&gt;</span>Australian<span class="w"> </span>Marine<span class="w"> </span>Community<span class="w"> </span>Profile<span class="w"> </span>of<span class="w"> </span>ISO<span class="w"> </span>19115:2005/19139<span class="nt">&lt;/gco:CharacterString&gt;</span>
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="w">  </span><span class="nt">&lt;/xsl:copy&gt;</span>
+</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="nt">&lt;/xsl:template&gt;</span>
+</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a>
+</span><span id="__span-48-7"><a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="nt">&lt;xsl:template</span><span class="w"> </span><span class="na">match=</span><span class="s">&quot;gmd:metadataStandardVersion&quot;</span><span class="w"> </span><span class="na">priority=</span><span class="s">&quot;10&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-48-8"><a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a><span class="w">  </span><span class="nt">&lt;xsl:copy&gt;</span>
+</span><span id="__span-48-9"><a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a><span class="w">    </span><span class="nt">&lt;gco:CharacterString&gt;</span>MCP:BlueNet<span class="w"> </span>V1.5<span class="nt">&lt;/gco:CharacterString&gt;</span>
+</span><span id="__span-48-10"><a id="__codelineno-48-10" name="__codelineno-48-10" href="#__codelineno-48-10"></a><span class="w">  </span><span class="nt">&lt;/xsl:copy&gt;</span>
+</span><span id="__span-48-11"><a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a><span class="nt">&lt;/xsl:template&gt;</span>
 </span></code></pre></div>
 <p>Processing by <code>update-fixed-info.xsl</code> can be enabled/disabled using the <em>Automatic Fixes</em> check box in the System Configuration menu. By default, it is enabled.</p>
 <p>Some important tasks handled in <code>upgrade-fixed-info.xsl</code>:</p>
@@ -3118,52 +3288,52 @@ schema-ident.xml  schema.xsd  schema  schematron/schematron-rules-iso-mcp.sch
 <ul>
 <li><strong>schema-suggestions.xml</strong> - The default behaviour of the GeoNetwork advanced editor when building the editor forms is to show elements that are not in the metadata record as unexpanded elements. To add these elements to the record, the user will have to click on the '+' icon next to the element name. This can be tedious especially as some metadata standards have elements nested in others (ie. complex elements). The schema-suggestions.xml file allows you to specify elements that should be automatically expanded by the editor. An example of this is the online resource information in the ISO19115/19139 standard. If the following XML was added to the <code>schema-suggestions.xml</code> file:</li>
 </ul>
-<div class="language-xml highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:CI_OnlineResource&quot;</span><span class="nt">&gt;</span>
-</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="w">  </span><span class="nt">&lt;suggest</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:protocol&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="w">  </span><span class="nt">&lt;suggest</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:name&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="w">  </span><span class="nt">&lt;suggest</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:description&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="nt">&lt;/field&gt;</span>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:CI_OnlineResource&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="w">  </span><span class="nt">&lt;suggest</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:protocol&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="w">  </span><span class="nt">&lt;suggest</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:name&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="w">  </span><span class="nt">&lt;suggest</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:description&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a><span class="nt">&lt;/field&gt;</span>
 </span></code></pre></div>
 <p>The effect of this would be that when an online resource element was expanded, then input fields for the protocol (a drop down/select list), name and description would automatically appear in the editor.</p>
 <p>Once again, a good place to start when building a <code>schema-suggestions.xml</code> file for the MCP is the <code>schema-suggestions.xml</code> file for the iso19139 schema.</p>
 <ul>
 <li><strong>schema-substitutes.xml</strong> - Recall from the earlier <a href="./#schema_and_schema_xsd">Creating the schema directory and schema.xsd file</a> section, that the method we used to extend the base ISO19115/19139 schemas is to extend the base type, define a new element with the extended base type and allow the new element to substitute for the base element. So for example, in the MCP, we want to add a new resource constraint element that holds Creative Commons and other commons type licensing information. This requires that the MD_Constraints type be extended and a new mcp:MD_Commons element be defined which can substitute for gmd:MD_Constraints. This is shown in the following snippet of XSD:</li>
 </ul>
-<div class="language-xml highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="nt">&lt;xs:complexType</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MD_CommonsConstraints_Type&quot;</span><span class="nt">&gt;</span>
-</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="w">  </span><span class="nt">&lt;xs:annotation&gt;</span>
-</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="w">    </span><span class="nt">&lt;xs:documentation&gt;</span>
-</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="w">      </span>Add<span class="w"> </span>MD_Commons<span class="w"> </span>as<span class="w"> </span>an<span class="w"> </span>extension<span class="w"> </span>of<span class="w"> </span>gmd:MD_Constraints_Type
-</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="w">    </span><span class="nt">&lt;/xs:documentation&gt;</span>
-</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a><span class="w">  </span><span class="nt">&lt;/xs:annotation&gt;</span>
-</span><span id="__span-48-7"><a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="w">  </span><span class="nt">&lt;xs:complexContent&gt;</span>
-</span><span id="__span-48-8"><a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a><span class="w">    </span><span class="nt">&lt;xs:extension</span><span class="w"> </span><span class="na">base=</span><span class="s">&quot;gmd:MD_Constraints_Type&quot;</span><span class="nt">&gt;</span>
-</span><span id="__span-48-9"><a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a><span class="w">      </span><span class="nt">&lt;xs:sequence</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>
-</span><span id="__span-48-10"><a id="__codelineno-48-10" name="__codelineno-48-10" href="#__codelineno-48-10"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;jurisdictionLink&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gmd:URL_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-11"><a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;licenseLink&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gmd:URL_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-12"><a id="__codelineno-48-12" name="__codelineno-48-12" href="#__codelineno-48-12"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;imageLink&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gmd:URL_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-13"><a id="__codelineno-48-13" name="__codelineno-48-13" href="#__codelineno-48-13"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;licenseName&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-14"><a id="__codelineno-48-14" name="__codelineno-48-14" href="#__codelineno-48-14"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;attributionConstraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-15"><a id="__codelineno-48-15" name="__codelineno-48-15" href="#__codelineno-48-15"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;derivativeConstraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-16"><a id="__codelineno-48-16" name="__codelineno-48-16" href="#__codelineno-48-16"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;commercialUseConstraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-17"><a id="__codelineno-48-17" name="__codelineno-48-17" href="#__codelineno-48-17"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;collectiveWorksConstraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-18"><a id="__codelineno-48-18" name="__codelineno-48-18" href="#__codelineno-48-18"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;otherConstraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-19"><a id="__codelineno-48-19" name="__codelineno-48-19" href="#__codelineno-48-19"></a><span class="w">      </span><span class="nt">&lt;/xs:sequence&gt;</span>
-</span><span id="__span-48-20"><a id="__codelineno-48-20" name="__codelineno-48-20" href="#__codelineno-48-20"></a><span class="w">      </span><span class="nt">&lt;xs:attribute</span><span class="w"> </span><span class="na">ref=</span><span class="s">&quot;mcp:commonsType&quot;</span><span class="w"> </span><span class="na">use=</span><span class="s">&quot;required&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-21"><a id="__codelineno-48-21" name="__codelineno-48-21" href="#__codelineno-48-21"></a><span class="w">      </span><span class="nt">&lt;xs:attribute</span><span class="w"> </span><span class="na">ref=</span><span class="s">&quot;gco:isoType&quot;</span><span class="w"> </span><span class="na">use=</span><span class="s">&quot;required&quot;</span><span class="w"> </span><span class="na">fixed=</span><span class="s">&quot;gmd:MD_Constraints&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-48-22"><a id="__codelineno-48-22" name="__codelineno-48-22" href="#__codelineno-48-22"></a><span class="w">    </span><span class="nt">&lt;/xs:extension&gt;</span>
-</span><span id="__span-48-23"><a id="__codelineno-48-23" name="__codelineno-48-23" href="#__codelineno-48-23"></a><span class="w">  </span><span class="nt">&lt;/xs:complexContent&gt;</span>
-</span><span id="__span-48-24"><a id="__codelineno-48-24" name="__codelineno-48-24" href="#__codelineno-48-24"></a><span class="nt">&lt;/xs:complexType&gt;</span>
-</span><span id="__span-48-25"><a id="__codelineno-48-25" name="__codelineno-48-25" href="#__codelineno-48-25"></a>
-</span><span id="__span-48-26"><a id="__codelineno-48-26" name="__codelineno-48-26" href="#__codelineno-48-26"></a><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MD_Commons&quot;</span><span class="w"> </span><span class="na">substitutionGroup=</span><span class="s">&quot;gmd:MD_Constraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;mcp:MD_CommonsConstraints_Type&quot;</span><span class="nt">/&gt;</span>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="nt">&lt;xs:complexType</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MD_CommonsConstraints_Type&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="w">  </span><span class="nt">&lt;xs:annotation&gt;</span>
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="w">    </span><span class="nt">&lt;xs:documentation&gt;</span>
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="w">      </span>Add<span class="w"> </span>MD_Commons<span class="w"> </span>as<span class="w"> </span>an<span class="w"> </span>extension<span class="w"> </span>of<span class="w"> </span>gmd:MD_Constraints_Type
+</span><span id="__span-50-5"><a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a><span class="w">    </span><span class="nt">&lt;/xs:documentation&gt;</span>
+</span><span id="__span-50-6"><a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a><span class="w">  </span><span class="nt">&lt;/xs:annotation&gt;</span>
+</span><span id="__span-50-7"><a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a><span class="w">  </span><span class="nt">&lt;xs:complexContent&gt;</span>
+</span><span id="__span-50-8"><a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a><span class="w">    </span><span class="nt">&lt;xs:extension</span><span class="w"> </span><span class="na">base=</span><span class="s">&quot;gmd:MD_Constraints_Type&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-50-9"><a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a><span class="w">      </span><span class="nt">&lt;xs:sequence</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-50-10"><a id="__codelineno-50-10" name="__codelineno-50-10" href="#__codelineno-50-10"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;jurisdictionLink&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gmd:URL_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-11"><a id="__codelineno-50-11" name="__codelineno-50-11" href="#__codelineno-50-11"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;licenseLink&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gmd:URL_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-12"><a id="__codelineno-50-12" name="__codelineno-50-12" href="#__codelineno-50-12"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;imageLink&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gmd:URL_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-13"><a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;licenseName&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-14"><a id="__codelineno-50-14" name="__codelineno-50-14" href="#__codelineno-50-14"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;attributionConstraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-15"><a id="__codelineno-50-15" name="__codelineno-50-15" href="#__codelineno-50-15"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;derivativeConstraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-16"><a id="__codelineno-50-16" name="__codelineno-50-16" href="#__codelineno-50-16"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;commercialUseConstraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-17"><a id="__codelineno-50-17" name="__codelineno-50-17" href="#__codelineno-50-17"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;collectiveWorksConstraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-18"><a id="__codelineno-50-18" name="__codelineno-50-18" href="#__codelineno-50-18"></a><span class="w">        </span><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;otherConstraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;gco:CharacterString_PropertyType&quot;</span><span class="w"> </span><span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-19"><a id="__codelineno-50-19" name="__codelineno-50-19" href="#__codelineno-50-19"></a><span class="w">      </span><span class="nt">&lt;/xs:sequence&gt;</span>
+</span><span id="__span-50-20"><a id="__codelineno-50-20" name="__codelineno-50-20" href="#__codelineno-50-20"></a><span class="w">      </span><span class="nt">&lt;xs:attribute</span><span class="w"> </span><span class="na">ref=</span><span class="s">&quot;mcp:commonsType&quot;</span><span class="w"> </span><span class="na">use=</span><span class="s">&quot;required&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-21"><a id="__codelineno-50-21" name="__codelineno-50-21" href="#__codelineno-50-21"></a><span class="w">      </span><span class="nt">&lt;xs:attribute</span><span class="w"> </span><span class="na">ref=</span><span class="s">&quot;gco:isoType&quot;</span><span class="w"> </span><span class="na">use=</span><span class="s">&quot;required&quot;</span><span class="w"> </span><span class="na">fixed=</span><span class="s">&quot;gmd:MD_Constraints&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-50-22"><a id="__codelineno-50-22" name="__codelineno-50-22" href="#__codelineno-50-22"></a><span class="w">    </span><span class="nt">&lt;/xs:extension&gt;</span>
+</span><span id="__span-50-23"><a id="__codelineno-50-23" name="__codelineno-50-23" href="#__codelineno-50-23"></a><span class="w">  </span><span class="nt">&lt;/xs:complexContent&gt;</span>
+</span><span id="__span-50-24"><a id="__codelineno-50-24" name="__codelineno-50-24" href="#__codelineno-50-24"></a><span class="nt">&lt;/xs:complexType&gt;</span>
+</span><span id="__span-50-25"><a id="__codelineno-50-25" name="__codelineno-50-25" href="#__codelineno-50-25"></a>
+</span><span id="__span-50-26"><a id="__codelineno-50-26" name="__codelineno-50-26" href="#__codelineno-50-26"></a><span class="nt">&lt;xs:element</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MD_Commons&quot;</span><span class="w"> </span><span class="na">substitutionGroup=</span><span class="s">&quot;gmd:MD_Constraints&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;mcp:MD_CommonsConstraints_Type&quot;</span><span class="nt">/&gt;</span>
 </span></code></pre></div>
 <p>For MCP records, the GeoNetwork editor will show a choice of elements from the substitution group for gmd:MD_Constraints when adding 'Resource Constraints' to the metadata document. This will now include mcp:MD_Commons.</p>
 <p><img alt="" src="../img/Editor-Constraints-Choices.png" /></p>
 <p>Note that by similar process, two other elements, now deprecated in favour of MD_Commons, were also added as substitutes for MD_Constraints. If it was necessary to constrain the choices shown in this menu, say to remove the deprecated elements and limit the choices to just legal, security and commons, then this can be done by the following piece of XML in the schema-substitutes.xml file:</p>
-<div class="language-xml highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:MD_Constraints&quot;</span><span class="nt">&gt;</span>
-</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="w">  </span><span class="nt">&lt;substitute</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:MD_LegalConstraints&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="w">  </span><span class="nt">&lt;substitute</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:MD_SecurityConstraints&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="w">  </span><span class="nt">&lt;substitute</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;mcp:MD_Commons&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a><span class="nt">&lt;/field&gt;</span>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:MD_Constraints&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a><span class="w">  </span><span class="nt">&lt;substitute</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:MD_LegalConstraints&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a><span class="w">  </span><span class="nt">&lt;substitute</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;gmd:MD_SecurityConstraints&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a><span class="w">  </span><span class="nt">&lt;substitute</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;mcp:MD_Commons&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-51-5"><a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a><span class="nt">&lt;/field&gt;</span>
 </span></code></pre></div>
 <p>The result of this change is shown below.</p>
 <p><img alt="" src="../img/Editor-Constraints-Choices-Modified.png" /></p>
@@ -3173,10 +3343,10 @@ schema-ident.xml  schema.xsd  schema  schematron/schematron-rules-iso-mcp.sch
 <p>If the new GeoNetwork plugin schema is to support on the fly translation of metadata records to other schemas, then the convert directory should be created and populated with appropriate XSLTs.</p>
 <h4 id="supporting-oaipmh-conversions">Supporting OAIPMH conversions</h4>
 <p>The OAIPMH server in GeoNetwork can deliver metadata records from any of the schemas known to GeoNetwork. It can also be configured to deliver schemas not known to GeoNetwork if an XSLT exists to convert a metadata record to that schema. The file <code>INSTALL_DIR/web/geonetwork/WEB-INF/config-oai-prefixes.xml</code> describes the schemas (known as prefixes in OAI speak) that can be produced by an XSLT. A simple example of the content of this file is shown below:</p>
-<div class="language-xml highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="nt">&lt;schemas&gt;</span>
-</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="w">  </span><span class="nt">&lt;schema</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;oai_dc&quot;</span><span class="w"> </span><span class="na">nsUrl=</span><span class="s">&quot;http://www.openarchives.org/OAI/2.0/&quot;</span>
-</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="w">          </span><span class="na">schemaLocation=</span><span class="s">&quot;http://www.openarchives.org/OAI/2.0/oai_dc.xsd&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="nt">&lt;/schemas&gt;</span>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="nt">&lt;schemas&gt;</span>
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="w">  </span><span class="nt">&lt;schema</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;oai_dc&quot;</span><span class="w"> </span><span class="na">nsUrl=</span><span class="s">&quot;http://www.openarchives.org/OAI/2.0/&quot;</span>
+</span><span id="__span-52-3"><a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a><span class="w">          </span><span class="na">schemaLocation=</span><span class="s">&quot;http://www.openarchives.org/OAI/2.0/oai_dc.xsd&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="nt">&lt;/schemas&gt;</span>
 </span></code></pre></div>
 <p>In the case of the prefix oai_dc shown above, if a schema converter with prefix <em>oai_dc</em> exists in the <code>schema-conversions.xml</code> file of a GeoNetwork schema, then records that belong to this schema will be transformed and included in OAIPMH requests for the <em>oai_dc</em> prefix. See <a href="./#schema_conversions">Creating the schema-conversions.xml file</a> for more info.</p>
 <p>To add oai_dc support for the MCP, the easiest method is to copy oai_dc.xsl from the convert directory of the iso19139 schema, modify it to cope with the different namespaces and additional elements of the MCP and add it to the <code>schema-conversions.xml</code> file for the MCP.</p>

@@ -1382,6 +1382,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#download-service" class="md-nav__link">
+    Download Service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#xlink_config" class="md-nav__link">
     Metadata XLink
   </a>
@@ -1398,6 +1405,13 @@
         <li class="md-nav__item">
   <a href="#search_stats_config" class="md-nav__link">
     Search Statistics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index-optimization" class="md-nav__link">
+    Index optimization
   </a>
   
 </li>
@@ -1426,6 +1440,13 @@
         <li class="md-nav__item">
   <a href="#multi-threaded-indexing" class="md-nav__link">
     Multi-Threaded Indexing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multilingual-settings" class="md-nav__link">
+    Multilingual Settings
   </a>
   
 </li>
@@ -2134,6 +2155,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#download-service" class="md-nav__link">
+    Download Service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#xlink_config" class="md-nav__link">
     Metadata XLink
   </a>
@@ -2150,6 +2178,13 @@
         <li class="md-nav__item">
   <a href="#search_stats_config" class="md-nav__link">
     Search Statistics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index-optimization" class="md-nav__link">
+    Index optimization
   </a>
   
 </li>
@@ -2178,6 +2213,13 @@
         <li class="md-nav__item">
   <a href="#multi-threaded-indexing" class="md-nav__link">
     Multi-Threaded Indexing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multilingual-settings" class="md-nav__link">
+    Multilingual Settings
   </a>
   
 </li>
@@ -2337,6 +2379,16 @@
 </div>
 <h2 id="metadata-rating">Metadata rating</h2>
 <p>If enabled, the catalog will calculate user ratings for metadata from this node only (not distributed among other GeoNetwork nodes). This only applies to records harvested using the GeoNetwork protocol.</p>
+<h2 id="download-service">Download Service</h2>
+<p>The metadata editor supports uploading one or more files that can be stored with the metadata record. When such a record is displayed in the search results, a <code>Download</code> button is provided which will allow the user to select which file they want to download. This option group determines how that download will occur.</p>
+<ul>
+<li>
+<p><strong>Use GeoNetwork simple file download service</strong>: Clicking on any file stored with the metadata record will deliver that file directly to the user via the browser.</p>
+</li>
+<li>
+<p><strong>Use GeoNetwork disclaimer and constraints service</strong>: Clicking on any file stored with the metadata record will deliver a zip archive to the user(via the browser) that contains the data file, the metadata record itself and a summary of the resource constraint metadata as an html document. In addition, the user will need to provide some details (name, organisation, email and optional comment) and view the resource constraints before they can download the zip archive.</p>
+</li>
+</ul>
 <h2 id="xlink_config">Metadata XLink</h2>
 <p>The XLink resolver replaces the content of elements with an attribute @xlink:href (except for some elements like srv:operatesOn) with the content obtained from the URL content of @xlink:href. The XLink resolver should be enabled if you want to harvest metadata fragments or reuse fragments of metadata in your metadata records (eg. when using a contact directory).</p>
 <ul>
@@ -2356,6 +2408,9 @@
 <h2 id="search_stats_config">Search Statistics</h2>
 <p>Enables/disables search statistics capture. Search statistics are stored in the database and can be queried using the <code>Search Statistics</code> page.</p>
 <p>There is very little compute overhead involved in storing search statistics as they are written to the database in a background thread. However database storage for a very busy site must be carefully planned.</p>
+<h2 id="index-optimization">Index optimization</h2>
+<p>Configuration settings in this group determine when the Lucene Index Optimizer is run.</p>
+<p>By default, this takes place at midnight each day. With recent upgrades to Lucene, particularly Lucene 3.6.1, the optimizer is becoming less useful, so this configuration group will very likely be removed in future versions.</p>
 <h2 id="open-archive-initiative-oai-pmh-provider">Open Archive Initiative (OAI-PMH) Provider</h2>
 <p>Options in this group control the way in which the OAI Server responds to OAIPMH harvest requests from remote sites.</p>
 <ul>
@@ -2414,10 +2469,34 @@ type=&quot;application/opensearchdescription+xml&quot; title=&quot;Open Search 
 <p>The INSPIRE Atom/OpenSearch implementation can be verified with the Atom tests in Esdin Test Framework (<a href="http://elfproject.eu/documentation/geotool/etf">http://elfproject.eu/documentation/geotool/etf</a>) or INSPIRE metadata validator (<a href="http://inspire-geoportal.ec.europa.eu/validator2">http://inspire-geoportal.ec.europa.eu/validator2</a>).</p>
 <h2 id="multi-threaded-indexing">Multi-Threaded Indexing</h2>
 <p>Configuration settings in this group determine how many processor threads are allocated to indexing tasks in GeoNetwork. If your machine has many processor cores, you can now determine how many to allocate to GeoNetwork indexing tasks. This can bring dramatic speed improvements on large indexing tasks (eg. changing the privileges on 20,000 records) because GeoNetwork can split the indexing task into a number of pieces and assign them to different processor cores.</p>
-<p><em>Number of processing threads</em> The maximum number of processing threads that can be allocated to an indexing task.</p>
+<ul>
+<li><strong>Number of processing threads</strong>: The maximum number of processing threads that can be allocated to an indexing task.</li>
+</ul>
 <p>Note: this option is only available for databases that have been tested. Those databases are PostGIS and Oracle. You should also carefully consider how many connections to the database you allocate in the database configuration as each thread could tie up one database connection for the duration of a long indexing session (for example). See the advanced configuration for more details of how to configure the number of connections in the database connection pool.</p>
+<h2 id="multilingual-settings">Multilingual Settings</h2>
+<p>Options in this group determine how GeoNetwork will search metadata in multiple languages.</p>
+<ul>
+<li>
+<p><strong>Enable auto-detecting search request language</strong>: If this option is selected, GeoNetwork will analyse the search query and attempt to detect the language that is used before defaulting to the GUI language.</p>
+</li>
+<li>
+<p><strong>Search results in requested language sorted on top</strong>: If this option is selected, a sort clause will be added to each query to ensure that results in the current language are always sorted on top. This is different from increasing priority of the language in that it overrides the relevance of the result.  For example, if a german result has very high relevance but the search language is french then the french results will all come before the german result.</p>
+</li>
+<li>
+<p><strong>Search only in requested language</strong>: The options in this section determines how documents are sorted/prioritised relative to the language in the document compared to the search language.</p>
+<ul>
+<li><em>All documents in all languages (No preferences)</em> - The search language is ignored and will have no effect on the ordering of the results.</li>
+<li><em>Prefer documents with translations requested language</em> - Documents with a translation in the search language (anywhere in the document) will be prioritized over documents without any elements in the search language.</li>
+<li><em>Prefer documents whose language is the requested language</em> - Documents that are the same language as the search language (ie. the documents that are specified as being in the same language as the search language) are prioritized over documents that are not.</li>
+<li><em>Translations in requested language</em> - The search results will only contain documents that have some translations in the search language.</li>
+<li><em>Document language is the requested language</em> - The search results will contain documents whose metadata language is specified as being the in search language.</li>
+</ul>
+</li>
+</ul>
 <h2 id="metadata-privileges">Metadata Privileges</h2>
-<p><em>Only set privileges to user's groups</em>: If enabled then only the groups that the user belongs to will be displayed in the metadata privileges page (unless the user is an Administrator). At the moment this option cannot be disabled and is likely to be deprecated in the next version of GeoNetwork.</p>
+<ul>
+<li><strong>Only set privileges to user's groups</strong>: If enabled then only the groups that the user belongs to will be displayed in the metadata privileges page (unless the user is an Administrator). At the moment this option cannot be disabled and is likely to be deprecated in the next version of GeoNetwork.</li>
+</ul>
 <h2 id="editing_harvested_records">Metadata import</h2>
 <ul>
 <li><strong>Restrict import to schemas</strong> List of all allowed schemas for metadata to be imported. If the metadata schema is not allowed, then the import is not done. Use an empty value to allow all schemas.</li>
@@ -2438,7 +2517,9 @@ type=&quot;application/opensearchdescription+xml&quot; title=&quot;Open Search 
 </ul>
 <p><img alt="" src="../img/metadata-publication.png" /></p>
 <h2 id="harvesting">Harvesting</h2>
-<p><em>Allow editing on harvested records</em>: Enables/Disables editing of harvested records in the catalogue. By default, harvested records cannot be edited.</p>
+<ul>
+<li><strong>Allow editing on harvested records</strong>: Enables/Disables editing of harvested records in the catalogue. By default, harvested records cannot be edited.</li>
+</ul>
 
 
 

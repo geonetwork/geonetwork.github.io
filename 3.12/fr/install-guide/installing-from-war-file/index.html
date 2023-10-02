@@ -920,7 +920,7 @@
         
   
   <span class="md-ellipsis">
-    Installing search platform
+    Installing remote index
   </span>
   
 
@@ -1344,8 +1344,6 @@
 <p>Host ports requirements:</p>
 <ul>
 <li>Java web server <a href="http://tomcat.apache.org/">Apache Tomcat</a> or <a href="https://www.eclipse.org/jetty/">Jetty</a>: 8080</li>
-<li><a href="https://www.elastic.co/elasticsearch/">ElasticSearch</a>: 9200</li>
-<li><a href="https://www.elastic.co/kibana/">Kibana</a>: 5601</li>
 <li>
 <p>Database eg. 5432 for a default <a href="https://www.postgresql.org/">PostgreSQL</a> installation</p>
 </li>
@@ -1353,7 +1351,7 @@
 <p>Download the WAR file</p>
 <p>GeoNetwork releases are available in <a href="https://sourceforge.net/projects/geonetwork/files/GeoNetwork_opensource/">https://sourceforge.net/projects/geonetwork/files/GeoNetwork_opensource/</a></p>
 <p>You can download the WAR file <code>geonetwork.war</code> from your browser or use command line like</p>
-<div class="language-shell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>wget<span class="w"> </span>https://downloads.sourceforge.net/project/geonetwork/GeoNetwork_opensource/v3.10.2/geonetwork.war
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>wget<span class="w"> </span>https://downloads.sourceforge.net/project/geonetwork/GeoNetwork_opensource/v3.12.2/geonetwork.war
 </span></code></pre></div>
 </li>
 <li>
@@ -1369,20 +1367,6 @@
 <p class="admonition-title">Note</p>
 <p>You need to ensure Tomcat is configured with enough memory for GeoNetwork to launch. This can be be configured via the <code>setenv</code> script in tomcat with the appropriate memory for the JAVA_OPTS property). <code>-Xms2g -Xmx2g</code> is usually fine.</p>
 </div>
-</li>
-<li>
-<p>Configure the search platform</p>
-<p>Open <a href="http://localhost:8080/geonetwork">http://localhost:8080/geonetwork</a> in your web browser. You should see the GeoNetwork home page indicating that the search is not yet available.</p>
-<p><img alt="" src="../../../install-guide/img/es-down.png" /></p>
-<p>You need to install Elasticsearch or to configure GeoNetwork to use an existing instance.</p>
-<p>Download Elasticsearch for your platform <a href="https://www.elastic.co/downloads/elasticsearch">https://www.elastic.co/downloads/elasticsearch</a></p>
-<div class="language-shell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>wget<span class="w"> </span>https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.6.2-linux-x86_64.tar.gz
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>tar<span class="w"> </span>xvfz<span class="w"> </span>elasticsearch-7.6.2-linux-x86_64.tar.gz
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">cd</span><span class="w"> </span>elasticsearch-7.6.2-linux-x86_64/bin
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>./elasticsearch
-</span></code></pre></div>
-<p>Open <a href="http://localhost:9200">http://localhost:9200</a> in your web browser to check that Elasticsearch is running.</p>
-<p>To use an existing instance check <code>on</code> in <a href="../installing-index/">Installing search platform</a>.</p>
 </li>
 <li>
 <p>Up and running?</p>

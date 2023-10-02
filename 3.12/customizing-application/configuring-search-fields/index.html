@@ -1154,71 +1154,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#index-field-types" class="md-nav__link">
-    Index field types
+  <a href="#add-a-search-field" class="md-nav__link">
+    Add a search field
   </a>
   
-    <nav class="md-nav" aria-label="Index field types">
+    <nav class="md-nav" aria-label="Add a search field">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#multilingual-text-field" class="md-nav__link">
-    Multilingual text field
+  <a href="#boosting-documents-and-fields" class="md-nav__link">
+    Boosting documents and fields
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#codelist" class="md-nav__link">
-    Codelist
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#thesaurus" class="md-nav__link">
-    Thesaurus
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#other-types" class="md-nav__link">
-    Other types
+  <a href="#boosting-search-results" class="md-nav__link">
+    Boosting search results
   </a>
   
 </li>
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#add-a-search-field" class="md-nav__link">
-    Add a search field
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#boosting-at-search-time" class="md-nav__link">
-    Boosting at search time
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#scoring" class="md-nav__link">
-    Scoring
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#language-analyzer" class="md-nav__link">
-    Language analyzer
-  </a>
   
 </li>
       
@@ -1539,71 +1497,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#index-field-types" class="md-nav__link">
-    Index field types
+  <a href="#add-a-search-field" class="md-nav__link">
+    Add a search field
   </a>
   
-    <nav class="md-nav" aria-label="Index field types">
+    <nav class="md-nav" aria-label="Add a search field">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#multilingual-text-field" class="md-nav__link">
-    Multilingual text field
+  <a href="#boosting-documents-and-fields" class="md-nav__link">
+    Boosting documents and fields
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#codelist" class="md-nav__link">
-    Codelist
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#thesaurus" class="md-nav__link">
-    Thesaurus
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#other-types" class="md-nav__link">
-    Other types
+  <a href="#boosting-search-results" class="md-nav__link">
+    Boosting search results
   </a>
   
 </li>
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#add-a-search-field" class="md-nav__link">
-    Add a search field
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#boosting-at-search-time" class="md-nav__link">
-    Boosting at search time
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#scoring" class="md-nav__link">
-    Scoring
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#language-analyzer" class="md-nav__link">
-    Language analyzer
-  </a>
   
 </li>
       
@@ -1640,209 +1556,63 @@
 
 <h1 id="configuring-search-fields">Configuring search fields</h1>
 <p>In some cases it's relevant to modify or extend the search fields of the metadata index. For example to add a field (which is then searchable or can be used in a default view) or change the content of the field created from the metadata (indexation).</p>
-<h2 id="index-field-types">Index field types</h2>
-<p>In the index, JSON document representing the metadata is stored.</p>
-<p>Simple fields are stored like a map of key = value. eg.</p>
-<div class="language-js highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="s2">&quot;_source&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="s2">&quot;docType&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="s2">&quot;documentStandard&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;iso19115-3.2018&quot;</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="s2">&quot;document&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="s2">&quot;metadataIdentifier&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;7451e2bd-22e8-4a74-a999-01c58b630369&quot;</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="s2">&quot;standardName&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;ISO 19115&quot;</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="s2">&quot;indexingDate&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;2020-11-19T06:30:47.009Z&quot;</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="s2">&quot;dateStamp&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;2020-11-17T13:56:43&quot;</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="s2">&quot;mainLanguage&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;fre&quot;</span>
-</span></code></pre></div>
-<h3 id="multilingual-text-field">Multilingual text field</h3>
-<p>Multilingual fields are stored using an object with the following properties:</p>
-<ul>
-<li>default the record default language value (this property is updated on the client side based on the UI language)</li>
-<li>lang{langCode} one or more properties containing all record languages values</li>
-</ul>
-<div class="language-js highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="s2">&quot;_source&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="s2">&quot;resourceTitleObject&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="s2">&quot;default&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Aménagements routiers et autoroutiers - Série&quot;</span><span class="p">,</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="s2">&quot;langfre&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Aménagements routiers et autoroutiers - Série&quot;</span><span class="p">,</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="s2">&quot;langger&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Straßen- und Autobahnverbesserungen - Standard&quot;</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">},</span>
-</span></code></pre></div>
-<h3 id="codelist">Codelist</h3>
-<p>Codelists are stored as an object like titles, abstract, ...</p>
-<p>If the record is multilingual, codelist translations are stored in the index for the record languages:</p>
-<div class="language-js highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="s2">&quot;cl_spatialRepresentationType&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="s2">&quot;key&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;grid&quot;</span><span class="p">,</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="s2">&quot;default&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Grid&quot;</span><span class="p">,</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="s2">&quot;langeng&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Grid&quot;</span><span class="p">,</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="s2">&quot;langfre&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Grid&quot;</span><span class="p">,</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="s2">&quot;text&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;{{&gt; inner text of the codelist element. Used in some profiles eg. ISO HNAP}}&quot;</span><span class="p">,</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="s2">&quot;link&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;./resources/codeList.xml#MD_SpatialRepresentationTypeCode&quot;</span><span class="p">,</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="p">}</span>
-</span></code></pre></div>
-<p>When creating a facets on a codelist, 2 options:</p>
-<ul>
-<li>if the catalog content is in one language (and there is no need to translate codelist in other language), use the default property eg. cl_spatialRepresentationType.default</li>
-<li>if you have a catalog containing a mix of languages without having all records translated in all languages, use the key eg. cl_spatialRepresentationType.key and do translation on the client side. See GnSearchModule.js to load extra codelist translations on the Angular app.</li>
-</ul>
-<p>The second one is also required if you want the codelist to be translated in the user interface language (whatever the record language). The codelist translations are loaded by the application depending on the UI language.</p>
-<p>Use the default property in record view. Depending on the UI language, the default property contains the translation in the UI language or fallback to the record default.</p>
-<h3 id="thesaurus">Thesaurus</h3>
-<p>Each thesaurus are described by the following fields:</p>
-<ul>
-<li><code>th_{thesaurusId}Number</code> with the count of non empty keywords</li>
-<li><code>th_{thesaurusId}</code>, an array of multilingual keyword which may contains a link (when using Anchor)</li>
-<li>(optional) <code>th_{thesaurusId}_tree</code> containing hierarchy when broader terms are found. default property contains the record default language hierarchy, key property contains the hierarchy of broader terms keys. This can be used to build tree depending on UI language (thesaurus translations has to be loaded by the client app).</li>
-</ul>
-<div class="language-js highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="s2">&quot;th_httpinspireeceuropaeumetadatacodelistPriorityDatasetPriorityDatasetNumber&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;3&quot;</span><span class="p">,</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="s2">&quot;th_httpinspireeceuropaeumetadatacodelistPriorityDatasetPriorityDataset&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">      </span><span class="s2">&quot;default&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Agglomerations - industrial noise exposure delineation (Noise Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="s2">&quot;langfre&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Agglomerations - industrial noise exposure delineation (Noise Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="s2">&quot;link&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/Agglomerations-IndustrialNoiseExposureDelineation-dir-2002-49&quot;</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="s2">&quot;default&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Agglomerations - noise exposure delineation day-evening-night (Noise Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="s2">&quot;langfre&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Agglomerations - noise exposure delineation day-evening-night (Noise Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">      </span><span class="s2">&quot;link&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/Agglomerations-NoiseExposureDelineationDEN-dir-2002-49&quot;</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="p">},</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="s2">&quot;default&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Designated waters (Water Framework Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">      </span><span class="s2">&quot;langfre&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Designated waters (Water Framework Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">      </span><span class="s2">&quot;link&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/DesignatedWaters-dir-2000-60&quot;</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">  </span><span class="p">],</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">  </span><span class="s2">&quot;th_httpinspireeceuropaeumetadatacodelistPriorityDatasetPriorityDataset_tree&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="s2">&quot;default&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">      </span><span class="s2">&quot;Directive 2000/60/EC&quot;</span><span class="p">,</span>
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">      </span><span class="s2">&quot;Directive 2000/60/EC^Protected areas (Water Framework Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">      </span><span class="s2">&quot;Directive 2000/60/EC^Protected areas (Water Framework Directive)^Designated waters (Water Framework Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">      </span><span class="s2">&quot;Directive 2002/49/EC&quot;</span><span class="p">,</span>
-</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">      </span><span class="s2">&quot;Directive 2002/49/EC^Environmental noise exposure (Noise Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">      </span><span class="s2">&quot;Directive 2002/49/EC^Environmental noise exposure (Noise Directive)^Agglomerations - industrial noise exposure delineation (Noise Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">      </span><span class="s2">&quot;Directive 2002/49/EC^Environmental noise exposure (Noise Directive)^Agglomerations - noise exposure delineation (Noise Directive)&quot;</span><span class="p">,</span>
-</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">      </span><span class="s2">&quot;Directive 2002/49/EC^Environmental noise exposure (Noise Directive)^Agglomerations - noise exposure delineation (Noise Directive)^Agglomerations - noise exposure delineation day-evening-night (Noise Directive)&quot;</span>
-</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">    </span><span class="p">],</span>
-</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">    </span><span class="s2">&quot;key&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">      </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/dir-2000-60&quot;</span><span class="p">,</span>
-</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">      </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/dir-2000-60^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/ProtectedAreas-dir-2000-60&quot;</span><span class="p">,</span>
-</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">      </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/dir-2000-60^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/ProtectedAreas-dir-2000-60^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/DesignatedWaters-dir-2000-60&quot;</span><span class="p">,</span>
-</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">      </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/dir-2002-49&quot;</span><span class="p">,</span>
-</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">      </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/dir-2002-49^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/EnvironmentalNoiseExposure-dir-2002-49&quot;</span><span class="p">,</span>
-</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">      </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/dir-2002-49^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/EnvironmentalNoiseExposure-dir-2002-49^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/Agglomerations-IndustrialNoiseExposureDelineation-dir-2002-49&quot;</span><span class="p">,</span>
-</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">      </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/dir-2002-49^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/EnvironmentalNoiseExposure-dir-2002-49^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/Agglomerations-NoiseExposureDelineation-dir-2002-49&quot;</span><span class="p">,</span>
-</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">      </span><span class="s2">&quot;http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/dir-2002-49^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/EnvironmentalNoiseExposure-dir-2002-49^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/Agglomerations-NoiseExposureDelineation-dir-2002-49^http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset/Agglomerations-NoiseExposureDelineationDEN-dir-2002-49&quot;</span>
-</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="w">    </span><span class="p">]</span>
-</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="p">}</span>
-</span></code></pre></div>
-<h3 id="other-types">Other types</h3>
-<p>Index document also contains other types of object for field like:</p>
-<ul>
-<li>geom representing the bounding boxes of the record stored as GeoJSON</li>
-<li>contact stored as simple fields and as object:</li>
-</ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>{
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  &quot;Org&quot;: &quot;Direction Asset Management (SPW - Mobilité et Infrastructure)&quot;,
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  &quot;pointOfContactOrg&quot;: &quot;Direction Asset Management (SPW - Mobilité et Infrastructure)&quot;,
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  &quot;contact: [
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    {
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>      &quot;organisation&quot;: &quot;Direction Asset Management (SPW - Mobilité et Infrastructure)&quot;,
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>      &quot;role&quot;: &quot;pointOfContact&quot;,
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>      &quot;email&quot;: &quot;frederic.plumier@spw.wallonie.be&quot;,
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>      &quot;website&quot;: &quot;&quot;,
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>      &quot;logo&quot;: &quot;&quot;,
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>      &quot;individual&quot;: &quot;&quot;,
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>      &quot;position&quot;: &quot;&quot;,
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>      &quot;phone&quot;: &quot;&quot;,
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>      &quot;address&quot;: &quot;Boulevard du Nord, 8, NAMUR, 5000, Belgique&quot;
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    }
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>  ]
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>}
-</span></code></pre></div>
-<ul>
-<li>link</li>
-</ul>
-<div class="language-js highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="s2">&quot;link&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">      </span><span class="s2">&quot;protocol&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;WWW:LINK-1.0-http--link&quot;</span><span class="p">,</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">      </span><span class="s2">&quot;url&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;http://geoapps.spw.wallonie.be/portailRoutes&quot;</span><span class="p">,</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">      </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Portail cartographique des routes - Application sécurisée&quot;</span><span class="p">,</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">      </span><span class="s2">&quot;description&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Application de consultation des routes et autoroutes de Wallonie. Cette application est sécurisée et n&#39;est accessible que pour les agents de la DGO1 du SPW.&quot;</span><span class="p">,</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">      </span><span class="s2">&quot;applicationProfile&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">      </span><span class="s2">&quot;group&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="p">},</span>
-</span></code></pre></div>
-<ul>
-<li>recordLink</li>
-</ul>
-<div class="language-js highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="s2">&quot;recordLink&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">      </span><span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;siblings&quot;</span><span class="p">,</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">      </span><span class="s2">&quot;associationType&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;isComposedOf&quot;</span><span class="p">,</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">      </span><span class="s2">&quot;initiativeType&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;collection&quot;</span><span class="p">,</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">      </span><span class="s2">&quot;to&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;f010eda4-e791-44b1-8b2a-309f352f7d8f&quot;</span><span class="p">,</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">      </span><span class="s2">&quot;url&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">      </span><span class="s2">&quot;title&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">      </span><span class="s2">&quot;origin&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;catalog&quot;</span>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="p">},</span>
-</span></code></pre></div>
+<p>In each schema-plugin you can define how the new field is filled from the metadata content in the file (see <code>schemas/iso19139/src/main/plugin/iso19139/index-fields/default.xsl</code>).</p>
+<p><a href="http://lucene.apache.org/java/docs/index.html&gt;">Lucene</a> is the search engine used by GeoNetwork. All Lucene configuration is defined in <code>WEB-INF/config-lucene.xml</code>.</p>
 <h2 id="add-a-search-field">Add a search field</h2>
-<p>Indexed fields are defined on a per schema basis on the schema folder (see <code>schemas/iso19139/src/main/plugin/iso19139/index-fields/index.xsl</code>).</p>
-<p>This file define for each search criteria the corresponding element in a metadata record. For example, indexing the resource identifier of an ISO19139 record:</p>
-<div class="language-xml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">&lt;xsl:for-each</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;gmd:identifier/*/gmd:code/(gco:CharacterString|gmx:Anchor)&quot;</span><span class="nt">&gt;</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">   </span><span class="nt">&lt;resourceIdentifier&gt;</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">     </span><span class="nt">&lt;xsl:value-of</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;.&quot;</span><span class="nt">/&gt;</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">   </span><span class="nt">&lt;/resourceIdentifier&gt;</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w"> </span><span class="nt">&lt;/xsl:for-each&gt;</span>
+<p>Indexed fields are defined on a per-schema basis on the schema folder (eg. WEB-INF/data/config/schema_plugins/iso19139/index-fields) in default.xsl file.
+This file define for each search criteria the corresponding element in a metadata record. For example, indexing the title
+of an ISO19139 record:</p>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">&lt;xsl:for-each</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;gmd:identificationInfo/gmd:MD_DataIdentification/</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="s">                       gmd:citation/gmd:CI_Citation/</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="s">                       gmd:title/gco:CharacterString&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">&lt;Field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;mytitle&quot;</span><span class="w"> </span><span class="na">string=</span><span class="s">&quot;{string(.)}&quot;</span><span class="w"> </span><span class="na">store=</span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="na">index=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nt">&lt;/xsl:for-each&gt;</span>
 </span></code></pre></div>
-<p>Once the field added to the index, user could query using it as a search criteria in the different kind of search services. For example using:</p>
-<div class="language-shell highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;localhost:8080/geonetwork/srv/api/search/records/_search&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span>-H<span class="w"> </span><span class="s1">&#39;Accept: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json;charset=utf-8&#39;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;from&quot;:0,&quot;size&quot;:0,&quot;query&quot;:{&quot;query_string&quot;:{&quot;query&quot;:&quot;+resourceIdentifier:1234&quot;}}}&#39;</span>
+<p>Usually, if the field is only for searching and should not be displayed in search results the store attribute could
+be set to false.</p>
+<p>Once the field added to the index, user could query using it as a search criteria in the different kind
+of search services. For example using: http://localhost:8080/geonetwork/srv/en/q?mytitle=africa</p>
+<p>If user wants this field to be tokenized, it should be added to the tokenized section of <code>WEB-INF/config-lucene.xml</code>:</p>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">&lt;tokenized&gt;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&lt;Field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;mytitle&quot;</span><span class="nt">/&gt;</span>
 </span></code></pre></div>
-<p>To customize how the field is indexed see <code>web/src/main/webResources/WEB-INF/data/config/index/records.json</code>.</p>
-<p>To return it in the search response, use the <code>ce</code> parameter of the query. See <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-fields.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/search-fields.html</a>.</p>
-<h2 id="boosting-at-search-time">Boosting at search time</h2>
-<p>See <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#_boosting">https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#_boosting</a>.</p>
-<p>By default, the search is defined as (see <code>web-ui/src/main/resources/catalog/js/CatController.js</code>):</p>
-<div class="language-js highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="s1">&#39;queryBase&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;any:(${any}) resourceTitleObject.default:(${any})^2&#39;</span><span class="p">,</span>
+<p>If user wants this field to be returned in search results for the search service, then the field should be added to the Lucene configuration in the dumpFields section:</p>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">    </span><span class="nt">&lt;dumpFields&gt;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">      </span><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;mytitle&quot;</span><span class="w"> </span><span class="na">tagName=</span><span class="s">&quot;mytitle&quot;</span><span class="nt">/&gt;</span>
 </span></code></pre></div>
-<h2 id="scoring">Scoring</h2>
-<p>By default the search engine compute score according to search criteria and the corresponding result set and the index content.</p>
-<p>By default, the search score is defined as (see <code>web-ui/src/main/resources/catalog/js/CatController.js</code>):</p>
-<div class="language-js highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="s1">&#39;scoreConfig&#39;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">   </span><span class="s2">&quot;boost&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;5&quot;</span><span class="p">,</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">   </span><span class="s2">&quot;functions&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">     </span><span class="c1">// Boost down member of a series</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">     </span><span class="p">{</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">       </span><span class="s2">&quot;filter&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;exists&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;field&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;parentUuid&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">       </span><span class="s2">&quot;weight&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.3</span>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">     </span><span class="p">},</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">     </span><span class="c1">// Boost down obsolete records</span>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">     </span><span class="p">{</span>
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">       </span><span class="s2">&quot;filter&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;match&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;codelist_status&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;obsolete&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">       </span><span class="s2">&quot;weight&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.3</span>
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">     </span><span class="p">},</span>
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">     </span><span class="c1">// {</span>
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">     </span><span class="c1">//   &quot;filter&quot;: { &quot;match&quot;: { &quot;codelist_resourceScope&quot;: &quot;service&quot; } },</span>
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">     </span><span class="c1">//   &quot;weight&quot;: 0.8</span>
-</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">     </span><span class="c1">// },</span>
-</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">     </span><span class="c1">// Start boosting down records more than 3 months old</span>
-</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">     </span><span class="p">{</span>
-</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="w">       </span><span class="s2">&quot;gauss&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="w">         </span><span class="s2">&quot;dateStamp&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">           </span><span class="s2">&quot;scale&quot;</span><span class="o">:</span><span class="w">  </span><span class="s2">&quot;365d&quot;</span><span class="p">,</span>
-</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="w">           </span><span class="s2">&quot;offset&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;90d&quot;</span><span class="p">,</span>
-</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="w">           </span><span class="s2">&quot;decay&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">0.5</span>
-</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="w">         </span><span class="p">}</span>
-</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">       </span><span class="p">}</span>
-</span><span id="__span-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="w">     </span><span class="p">}</span>
-</span><span id="__span-10-28"><a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="w">   </span><span class="p">],</span>
-</span><span id="__span-10-29"><a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="w">   </span><span class="s2">&quot;score_mode&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;multiply&quot;</span>
-</span><span id="__span-10-30"><a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="w"> </span><span class="p">},</span>
+<h3 id="boosting-documents-and-fields">Boosting documents and fields</h3>
+<p>Document and field boosting allows catalogue administrator to be able to customize default Lucene scoring in order to promote certain types of records.</p>
+<p>A common use case is when the catalogue contains lot of series for aggregating datasets. </p>
+<p>Not promoting the series could make the series "useless" even if those records contains important content.</p>
+<p>Boosting this type of document allows to promote series and guide the end-user from series to related records (through the relation navigation).</p>
+<p>In that case, the following configuration allows boosting series and minor importance of records part of a series:</p>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">&lt;boostDocument</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;org.fao.geonet.kernel.search.function.ImportantDocument&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&lt;Param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;fields&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;java.lang.String&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;type,parentUuid&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&lt;Param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;values&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;java.lang.String&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;series,NOTNULL&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&lt;Param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;boosts&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;java.lang.String&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;.2F,-.3F&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nt">&lt;/boostDocument&gt;</span>
 </span></code></pre></div>
-<h2 id="language-analyzer">Language analyzer</h2>
-<p>By default a <code>rd</code> analyzer is used. If the catalog content is english, it may make sense to change the analyzer to <code>sh</code>. To customize the analyzer see <code>web/src/main/webResources/WEB-INF/data/config/index/records.json</code></p>
+<p>The boost is a positive or negative float value.</p>
+<p>This feature has to be used by expert users to alter default search behavior scoring according to catalogue content. It needs tuning and experimentation to not promote too much some records. During testing, if search results looks different while being logged or not, it could be relevant to ignore some internal fields in boost computation which may alter scoring according to current user. </p>
+<p>Example configuration:</p>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">&lt;fieldBoosting&gt;</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&lt;Field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;_op0&quot;</span><span class="w"> </span><span class="na">boost=</span><span class="s">&quot;0.0F&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&lt;Field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;_op1&quot;</span><span class="w"> </span><span class="na">boost=</span><span class="s">&quot;0.0F&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">&lt;Field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;_op2&quot;</span><span class="w"> </span><span class="na">boost=</span><span class="s">&quot;0.0F&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">&lt;Field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;_dummy&quot;</span><span class="w"> </span><span class="na">boost=</span><span class="s">&quot;0.0F&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nt">&lt;Field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;_isTemplate&quot;</span><span class="w"> </span><span class="na">boost=</span><span class="s">&quot;0.0F&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nt">&lt;Field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;_owner&quot;</span><span class="w"> </span><span class="na">boost=</span><span class="s">&quot;0.0F&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nt">&lt;/fieldBoosting&gt;</span>
+</span></code></pre></div>
+<h3 id="boosting-search-results">Boosting search results</h3>
+<p>By default, Lucene compute score according to search criteria and the corresponding result set and the index content. In case of search with no criteria, Lucene will return top docs in index order (because none are more relevant than others).</p>
+<p>In order to change the score computation, a boost function could be defined. Boosting query needs to be loaded in classpath. A sample boosting class is available. RecencyBoostingQuery will promote recently modified documents:</p>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">&lt;boostQuery</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;org.fao.geonet.kernel.search.function.RecencyBoostingQuery&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&lt;Param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;multiplier&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;double&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;2.0&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&lt;Param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;maxDaysAgo&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;int&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;365&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&lt;Param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;dayField&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;java.lang.String&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;_changeDate&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nt">&lt;/boostQuery&gt;</span>
+</span></code></pre></div>
 
 
 
